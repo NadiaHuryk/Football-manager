@@ -1,0 +1,62 @@
+<div class="page-container">
+  <h2 class="players-title">Players</h2>
+  <table class="players-table">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Birth Date</th>
+      <th>Career Start Date</th>
+      <th>Team</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let player of players">
+      <td>{{ player.id }}</td>
+      <td>{{ player.firstName }}</td>
+      <td>{{ player.lastName }}</td>
+      <td>{{ player.birthDate }}</td>
+      <td>{{ player.careerStartDate }}</td>
+      <td>{{ getTeamName(player.teamId) }}</td>
+      <td>
+        <button (click)="deletePlayer(player.id)">Delete</button>
+        <button [routerLink]="['/players', player.id]">Details</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="player-form">
+    <h3>Add New Player</h3>
+    <table>
+      <tr>
+        <td>First Name</td>
+        <td><input [(ngModel)]="newPlayer.firstName" placeholder="Enter First Name"></td>
+      </tr>
+      <tr>
+        <td>Last Name</td>
+        <td><input [(ngModel)]="newPlayer.lastName" placeholder="Enter Last Name"></td>
+      </tr>
+      <tr>
+        <td>Birth Date</td>
+        <td><input [(ngModel)]="newPlayer.birthDate" type="date"></td>
+      </tr>
+      <tr>
+        <td>Career Start Date</td>
+        <td><input [(ngModel)]="newPlayer.careerStartDate" type="date"></td>
+      </tr>
+      <tr>
+        <td>Team</td>
+        <td>
+          <select [(ngModel)]="newPlayer.teamId">
+            <option *ngFor="let team of teams" [value]="team.id">{{ team.name }}</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <button (click)="addPlayer()">Add Player</button>
+  </div>
+
+</div>

@@ -1,5 +1,6 @@
 package com.example.footballmanager.service.impl;
 
+import com.example.footballmanager.exeption.TeamException;
 import com.example.footballmanager.model.Player;
 import com.example.footballmanager.model.Team;
 import com.example.footballmanager.repository.PlayerRepository;
@@ -22,30 +23,27 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team get(Long id) {
-        return teamRepository.findById(id).orElseThrow(()
-                -> new RuntimeException("Can't find team by id: " + id));
+        return teamRepository.findById(id).orElseThrow(() ->
+                new TeamException("Can't find team by id: " + id));
     }
 
     @Override
     public Team update(Team team) {
-        if (teamRepository.existsById(team.getId())) {
-            return teamRepository.save(team);
-        }
-        throw new RuntimeException("Can't find team by id : " + team.getId());
+        return teamRepository.findById(team.getId())
+                .map(existingTeam -> teamRepository.save(team))
+                .orElseThrow(() -> new TeamException("Can't find team by id: " + team.getId()));
     }
 
     @Override
     public void delete(Long id) {
-        if (!teamRepository.existsById(id)) {
-            throw new RuntimeException("Can't find team by id : " + id);
-        }
-        List<Player> players = playerRepository.findAllByTeamId(id);
+        Team team = teamRepository.findById(id)
+                .orElseThrow(() -> new TeamException("Can't find team by id : " + id));
 
-        for (Player player : players) {
-            player.setTeam(null);
-            playerRepository.save(player);
-        }
-        teamRepository.deleteById(id);
+        List<Player> players = playerRepository.findAllByTeamId(id);
+        players.forEach(player -> player.setTeam(null));
+
+        playerRepository.saveAll(players);
+        teamRepository.delete(team);
     }
 
     @Override

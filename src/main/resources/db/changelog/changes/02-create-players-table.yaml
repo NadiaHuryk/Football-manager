@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-players-table
+      author: your_name
+      changes:
+        - createTable:
+            tableName: players
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+              - column:
+                  name: birth_date
+                  type: DATE
+              - column:
+                  name: career_start_date
+                  type: DATE
+              - column:
+                  name: team_id
+                  type: BIGINT
+                  constraints:
+                    references: teams(id)
+                    foreignKeyName: fk_players_team_id_teams

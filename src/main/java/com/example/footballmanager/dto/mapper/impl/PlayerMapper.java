@@ -1,7 +1,6 @@
 package com.example.footballmanager.dto.mapper.impl;
 
-import com.example.footballmanager.dto.mapper.RequestDtoMapper;
-import com.example.footballmanager.dto.mapper.ResponseDtoMapper;
+import com.example.footballmanager.dto.mapper.Mapper;
 import com.example.footballmanager.dto.request.PlayerRequestDto;
 import com.example.footballmanager.dto.response.PlayerResponseDto;
 import com.example.footballmanager.model.Player;
@@ -12,8 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class PlayerMapper implements ResponseDtoMapper<PlayerResponseDto, Player>,
-        RequestDtoMapper<PlayerRequestDto, Player> {
+public class PlayerMapper implements Mapper<Player, PlayerRequestDto, PlayerResponseDto> {
     private TeamService teamService;
 
     @Override

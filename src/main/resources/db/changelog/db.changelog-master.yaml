@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changes/01-create-teams-table.yaml
+  - include:
+      file: db/changelog/changes/02-create-players-table.yaml
+  - include:
+      file: db/changelog/changes/03-insert-teams-in-db.yaml
+  - include:
+      file: db/changelog/changes/04-insert-players-in-db.yaml

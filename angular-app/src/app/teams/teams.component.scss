@@ -1,0 +1,64 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.teams-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.teams-table th, .teams-table td {
+  border: 1px solid #ddd;
+  padding: 2px 16px;
+  font-size: 14px;
+  background-color: white;
+  text-align: center;
+}
+
+.teams-table td {
+  position: relative;
+}
+
+.teams-actions button,
+.teams-actions .button.details {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 10px 18px;
+  background-color: #343a40;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.teams-actions button:hover,
+.teams-actions .button.details:hover {
+  background-color: black;
+  color: white;
+}
+
+.delete-button {
+  background-color: #343a40;
+  color: white;
+  font-size: 16px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: black;
+  color: white;
+}

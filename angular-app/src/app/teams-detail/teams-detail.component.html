@@ -1,0 +1,68 @@
+<div class="page-container">
+  <div class="team-details">
+    <h2 class="team-details-heading">Team Details</h2>
+    <div *ngIf="team">
+      <table class="details-table">
+        <tr>
+          <th>ID</th>
+          <td>{{ team.id }}</td>
+        </tr>
+        <tr>
+          <th>Name</th>
+          <td *ngIf="!editMode">{{ team.name }}</td>
+          <td *ngIf="editMode"><input [(ngModel)]="team.name"></td>
+        </tr>
+        <tr>
+          <th>City</th>
+          <td *ngIf="!editMode">{{ team.city }}</td>
+          <td *ngIf="editMode"><input [(ngModel)]="team.city"></td>
+        </tr>
+        <tr>
+          <th>Country</th>
+          <td *ngIf="!editMode">{{ team.country }}</td>
+          <td *ngIf="editMode"><input [(ngModel)]="team.country"></td>
+        </tr>
+        <tr>
+          <th>Balance</th>
+          <td *ngIf="!editMode">{{ team.balance }}</td>
+          <td *ngIf="editMode"><input [(ngModel)]="team.balance" type="number"></td>
+        </tr>
+        <tr>
+          <th>Transfer Commission</th>
+          <td *ngIf="!editMode">{{ team.commission }}</td>
+          <td *ngIf="editMode"><input [(ngModel)]="team.commission" type="number"></td>
+        </tr>
+      </table>
+      <div *ngIf="!editMode">
+        <button (click)="editMode = true">Edit</button>
+      </div>
+      <div *ngIf="editMode">
+        <button (click)="save()">Save</button>
+        <button (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div class="players-list">
+    <h2 class="players-heading">Players:</h2>
+    <table class="players-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Full name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let player of players">
+        <tr class="player-item">
+          <td class="player-id">{{ player.id }}</td>
+          <td>
+            <a [routerLink]="['/players', player.id]" class="player-name">
+              {{ player.firstName }} {{ player.lastName }}
+            </a>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

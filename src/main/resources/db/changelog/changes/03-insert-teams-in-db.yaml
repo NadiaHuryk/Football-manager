@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-initial-teams
+      author: your_name
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO teams (id, name, country, city, commission, balance)
+              VALUES
+              (1, 'Real Madrid', 'Spain', 'Madrid', 1, 1500000.00),
+              (2, 'Manchester United', 'England', 'Manchester', 1, 1700000.00),
+              (3, 'Barcelona', 'Spain', 'Barcelona', 2, 2500000.00);

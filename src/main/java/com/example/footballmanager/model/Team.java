@@ -22,7 +22,7 @@ public class Team {
     private String name;
     private String country;
     private String city;
-    private Double commission;
+    private Integer commission;
     private BigDecimal balance;
     @OneToMany(mappedBy = "team")
     @ToString.Exclude
