@@ -1,0 +1,57 @@
+<div class="page-container">
+  <h2 class="teams-title">Teams</h2>
+  <table class="teams-table">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Country</th>
+    <th>City</th>
+    <th>Balance</th>
+    <th>Commission</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let team of teams">
+    <td>{{ team.id }}</td>
+    <td>{{ team.name }}</td>
+    <td>{{ team.country }}</td>
+    <td>{{ team.city }}</td>
+    <td>{{ team.balance }}</td>
+    <td>{{ team.commission }}</td>
+    <td class="team-actions">
+    <button (click)="deleteTeam(team.id)">Delete</button>
+      <button class="button details" [routerLink]="['/teams', team.id]">Details</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+  <div class="team-form">
+    <h3>Add New Team</h3>
+    <table>
+      <tr>
+        <td>Name</td>
+        <td><input [(ngModel)]="newTeam.name" placeholder="Team Name"></td>
+      </tr>
+      <tr>
+        <td>City</td>
+        <td><input [(ngModel)]="newTeam.city" placeholder="City"></td>
+      </tr>
+      <tr>
+        <td>Country</td>
+        <td><input [(ngModel)]="newTeam.country" placeholder="Country"></td>
+      </tr>
+      <tr>
+        <td>Balance</td>
+        <td><input type="number" [(ngModel)]="newTeam.balance" placeholder="Balance"></td>
+      </tr>
+      <tr>
+        <td>Commission</td>
+        <td><input type="number" [(ngModel)]="newTeam.commission" placeholder="Commission"></td>
+      </tr>
+    </table>
+    <button (click)="addTeam()">Add Team</button>
+  </div>
+</div>

@@ -1,9 +1,8 @@
 package com.example.footballmanager.service.impl;
 
+import com.example.footballmanager.exeption.PlayerException;
 import com.example.footballmanager.model.Player;
-import com.example.footballmanager.model.Team;
 import com.example.footballmanager.repository.PlayerRepository;
-import com.example.footballmanager.repository.TeamRepository;
 import com.example.footballmanager.service.PlayerService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
     private PlayerRepository playerRepository;
-    private final TeamRepository teamRepository;
 
     @Override
     public Player save(Player player) {
@@ -22,8 +20,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player get(Long id) {
-        return playerRepository.findById(id).orElseThrow(()
-                -> new RuntimeException("Can't find player by id : " + id));
+        return playerRepository.findById(id).orElseThrow(() ->
+                new PlayerException("Can't find player by id : " + id));
     }
 
     @Override
@@ -31,21 +29,12 @@ public class PlayerServiceImpl implements PlayerService {
         if (playerRepository.existsById(player.getId())) {
             return playerRepository.save(player);
         }
-        throw new RuntimeException("Can't find player by id : " + player.getId());
+        throw new PlayerException("Can't find player by id : " + player.getId());
     }
 
     @Override
     public void delete(Long id) {
-        Player player = playerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can't delete player by id: " + id));
-
-        List<Team> all = teamRepository.findAll();
-
-        for (Team team : all) {
-            team.getPlayers().remove(player);
-        }
-
-        playerRepository.delete(player);
+        playerRepository.deleteById(id);
     }
 
     @Override

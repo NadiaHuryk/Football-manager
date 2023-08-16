@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-teams-table
+      author: your_name
+      changes:
+        - createTable:
+            tableName: teams
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: country
+                  type: VARCHAR(255)
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+              - column:
+                  name: commission
+                  type: INTEGER
+              - column:
+                  name: balance
+                  type: NUMERIC
