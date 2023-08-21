@@ -102,4 +102,14 @@ public class UtilModelObjects {
         }
         return teams;
     }
-}
+
+    protected List<TeamResponseDto> getTeamResponseDto(int count) {
+        List<TeamResponseDto> teamResponseDtos = new ArrayList<>();
+        for (long i = 1; i <=count; i++) {
+            TeamResponseDto teamResponseDto = getTeamResponseDto();
+            teamResponseDto.setId(i);
+            teamResponseDtos.add(teamResponseDto);
+        }
+        return teamResponseDtos;
+    }
+ }

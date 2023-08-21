@@ -1,7 +1,7 @@
 package com.example.footballmanager.controller;
 
 import com.example.footballmanager.FootballmanagerApplication;
-import com.example.footballmanager.dto.mapper.impl.PlayerMapper;
+import com.example.footballmanager.dto.mapper.PlayerMapper;
 import com.example.footballmanager.dto.request.PlayerRequestDto;
 import com.example.footballmanager.dto.response.PlayerResponseDto;
 import com.example.footballmanager.model.Player;
@@ -20,6 +20,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -120,8 +123,30 @@ class PlayerControllerTest extends UtilModelObjects {
     void getAllPlayers_Ok() {
         int countOfPlayers = 2;
         List<Player> players = getPlayers(countOfPlayers);
+
+        PlayerResponseDto createdPlayerResponseDto = new PlayerResponseDto();
+        createdPlayerResponseDto.setId(1L);
+        createdPlayerResponseDto.setFirstName("John");
+        createdPlayerResponseDto.setLastName("Doe");
+        createdPlayerResponseDto.setBirthDate(LocalDate.of(1990, 05, 15));
+        createdPlayerResponseDto.setCareerStartDate(LocalDate.of(2010, 8, 20));
+        createdPlayerResponseDto.setTeamId(1L);
+
+        PlayerResponseDto createdPlayerResponseDto1 = new PlayerResponseDto();
+        createdPlayerResponseDto1.setId(2L);
+        createdPlayerResponseDto1.setFirstName("John");
+        createdPlayerResponseDto1.setLastName("Doe");
+        createdPlayerResponseDto1.setBirthDate(LocalDate.of(1990, 05, 15));
+        createdPlayerResponseDto1.setCareerStartDate(LocalDate.of(2010, 8, 20));
+        createdPlayerResponseDto1.setTeamId(1L);
+
+        List<PlayerResponseDto> playerResponseDtos = new ArrayList<>();
+        playerResponseDtos.add(createdPlayerResponseDto);
+        playerResponseDtos.add(createdPlayerResponseDto1);
+
         Mockito.when(playerService.findAll()).thenReturn(players);
-        Mockito.when(mapper.mapToDto(Mockito.any(Player.class))).thenCallRealMethod();
+        Mockito.when(mapper.mapToDto(Mockito.any(Player.class))).thenReturn(createdPlayerResponseDto,
+                createdPlayerResponseDto1);
         RestAssuredMockMvc
                 .given()
                 .when()

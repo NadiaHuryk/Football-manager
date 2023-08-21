@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -40,7 +39,6 @@ class TransferServiceImplTest {
         playerTeam.setCity("Madrid");
         playerTeam.setCommission(5);
         playerTeam.setBalance(BigDecimal.valueOf(2000000));
-        playerTeam.setPlayers(new ArrayList<>());
 
         player = new Player();
         player.setId(1L);
@@ -57,7 +55,6 @@ class TransferServiceImplTest {
         teamTo.setCity("Barcelona");
         teamTo.setCommission(3);
         teamTo.setBalance(BigDecimal.valueOf(3000000));
-        teamTo.setPlayers(new ArrayList<>());
     }
 
     @Test
