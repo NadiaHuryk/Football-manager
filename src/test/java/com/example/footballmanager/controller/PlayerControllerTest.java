@@ -20,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +38,7 @@ class PlayerControllerTest extends UtilModelObjects {
     private PlayerMapper mapper;
 
     private final Player player = getPlayer();
+
     private final PlayerResponseDto playerResponseDto = getPlayerResponseDto();
 
     @BeforeEach
@@ -50,7 +50,8 @@ class PlayerControllerTest extends UtilModelObjects {
     void createPlayer_Ok() {
         Mockito.when(playerService.save(player)).thenReturn(player);
         Mockito.when(mapper.mapToModel(Mockito.any(PlayerRequestDto.class))).thenReturn(player);
-        Mockito.when(mapper.mapToDto(Mockito.any(Player.class))).thenReturn(getPlayerResponseDto());
+        Mockito.when(mapper.mapToDto(Mockito.any(Player.class)))
+                .thenReturn(getPlayerResponseDto());
         RestAssuredMockMvc
                 .given()
                 .contentType(ContentType.JSON)
