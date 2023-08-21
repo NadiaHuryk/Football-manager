@@ -1,56 +1,33 @@
-HELP.md
+# .gitignore
+
+# Maven build files
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-# Environment specific files
-.env
 
 # Docker related files
 docker-compose.yml
 Dockerfile
 
-### Static generated resources ###
-backend/src/main/resources/static/
-
-# Wrapper scripts for Maven
-mvnw
-mvnw.cmd
+# IDE and editor files
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
 
 # Compiled classes
 *.class
+
+# Log files
+*.log
+
+# Environment specific files
+.env
 
 # Checkstyle configuration files
 checkstyle.xml
 checkstyle-suppressions.xml
 
-# Log files
-*.log
+# Wrapper scripts for Maven
+mvnw
+mvnw.cmd
