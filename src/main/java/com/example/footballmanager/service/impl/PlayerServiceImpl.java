@@ -1,6 +1,6 @@
 package com.example.footballmanager.service.impl;
 
-import com.example.footballmanager.exeption.PlayerException;
+import com.example.footballmanager.exeption.FootballException;
 import com.example.footballmanager.model.Player;
 import com.example.footballmanager.repository.PlayerRepository;
 import com.example.footballmanager.service.PlayerService;
@@ -21,7 +21,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player get(Long id) {
         return playerRepository.findById(id).orElseThrow(() ->
-                new PlayerException("Can't find player by id : " + id));
+                new FootballException("Can't find player by id : " + id));
     }
 
     @Override
@@ -29,7 +29,7 @@ public class PlayerServiceImpl implements PlayerService {
         if (playerRepository.existsById(player.getId())) {
             return playerRepository.save(player);
         }
-        throw new PlayerException("Can't find player by id : " + player.getId());
+        throw new FootballException("Can't find player by id : " + player.getId());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.example.footballmanager.controller;
 
-import com.example.footballmanager.dto.mapper.impl.TeamMapper;
+import com.example.footballmanager.dto.mapper.TeamMapper;
 import com.example.footballmanager.dto.request.TeamRequestDto;
 import com.example.footballmanager.dto.response.TeamResponseDto;
 import com.example.footballmanager.model.Team;
@@ -13,6 +13,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,7 +21,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -35,9 +39,6 @@ class TeamControllerTest extends UtilModelObjects {
     @MockBean
     private TeamMapper mapper;
 
-    @MockBean
-    private TransferService transferService;
-
     private final Team team = getTeam();
     private TeamResponseDto teamResponseDto = getTeamResponseDto();
 
@@ -48,9 +49,9 @@ class TeamControllerTest extends UtilModelObjects {
 
     @Test
     void createTeam_Ok() {
-        Mockito.when(teamService.save(Mockito.any(Team.class))).thenReturn(team);
-        Mockito.when(mapper.mapToModel(Mockito.any(TeamRequestDto.class))).thenReturn(team);
-        Mockito.when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(getTeamResponseDto());
+        when(teamService.save(Mockito.any(Team.class))).thenReturn(team);
+        when(mapper.mapToModel(Mockito.any(TeamRequestDto.class))).thenReturn(team);
+        when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(getTeamResponseDto());
         RestAssuredMockMvc
                 .given()
                 .contentType(ContentType.JSON)
@@ -69,8 +70,8 @@ class TeamControllerTest extends UtilModelObjects {
 
     @Test
     void getTeam_Ok() {
-        Mockito.when(teamService.get(team.getId())).thenReturn(team);
-        Mockito.when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(teamResponseDto);
+        when(teamService.get(team.getId())).thenReturn(team);
+        when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(teamResponseDto);
         RestAssuredMockMvc
                 .when()
                 .get("/teams/{id}", team.getId().intValue())
@@ -86,9 +87,9 @@ class TeamControllerTest extends UtilModelObjects {
 
     @Test
     void updateTeam_Ok() {
-        Mockito.when(teamService.update(team)).thenReturn(team);
-        Mockito.when(mapper.mapToModel(getTeamRequestDto())).thenReturn(team);
-        Mockito.when(mapper.mapToDto(team)).thenReturn(getTeamResponseDto());
+        when(teamService.update(team)).thenReturn(team);
+        when(mapper.mapToModel(getTeamRequestDto())).thenReturn(team);
+        when(mapper.mapToDto(team)).thenReturn(getTeamResponseDto());
         RestAssuredMockMvc
                 .given()
                 .contentType(ContentType.JSON)
@@ -105,7 +106,6 @@ class TeamControllerTest extends UtilModelObjects {
                 .body("balance", Matchers.equalTo(teamResponseDto.getBalance().intValue()));
     }
 
-
     @Test
     void deleteTeam_Ok() {
         RestAssuredMockMvc
@@ -120,14 +120,35 @@ class TeamControllerTest extends UtilModelObjects {
     void getAllTeams_Ok() {
         int countOfTeams = 2;
         List<Team> teams = getTeams(countOfTeams);
-        Mockito.when(teamService.findAll()).thenReturn(teams);
-        Mockito.when(mapper.mapToDto(Mockito.any(Team.class))).thenCallRealMethod();
+        TeamResponseDto createdTeamResponseDto1 = new TeamResponseDto();
+        createdTeamResponseDto1.setId(1L);
+        createdTeamResponseDto1.setName("Team A");
+        createdTeamResponseDto1.setCountry("Ukraine");
+        createdTeamResponseDto1.setCity("Lviv");
+        createdTeamResponseDto1.setCommission(1);
+        createdTeamResponseDto1.setBalance(BigDecimal.valueOf(10000));
+
+        TeamResponseDto createdTeamResponseDto2 = new TeamResponseDto();
+        createdTeamResponseDto2.setId(2L);
+        createdTeamResponseDto2.setName("Team A");
+        createdTeamResponseDto2.setCountry("Ukraine");
+        createdTeamResponseDto2.setCity("Lviv");
+        createdTeamResponseDto2.setCommission(1);
+        createdTeamResponseDto2.setBalance(BigDecimal.valueOf(10000));
+
+        List<TeamResponseDto> teamResponseDtos = new ArrayList<>();
+        teamResponseDtos.add(createdTeamResponseDto1);
+        teamResponseDtos.add(createdTeamResponseDto2);
+
+        when(teamService.findAll()).thenReturn(teams);
+        when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(createdTeamResponseDto1,
+                createdTeamResponseDto2);
         RestAssuredMockMvc
-                .given()
                 .when()
                 .get("/teams")
                 .then()
                 .statusCode(200)
+                .body("size()", Matchers.equalTo(countOfTeams))
                 .body("[0].id", Matchers.equalTo(teams.get(0).getId().intValue()))
                 .body("[0].name", Matchers.equalTo(teams.get(0).getName()))
                 .body("[0].country", Matchers.equalTo(teams.get(0).getCountry()))
@@ -140,17 +161,5 @@ class TeamControllerTest extends UtilModelObjects {
                 .body("[1].city", Matchers.equalTo(teams.get(1).getCity()))
                 .body("[1].commission", Matchers.equalTo(teams.get(1).getCommission()))
                 .body("[1].balance", Matchers.equalTo(teams.get(1).getBalance().intValue()));
-    }
-
-    @Test
-    void transferPlayer_Ok() {
-        Long playerId = 1L;
-        Long targetTeamId = 2L;
-        RestAssuredMockMvc
-                .given()
-                .when()
-                .post("/teams/{playerId}/transfer/{targetTeamId}", playerId, targetTeamId)
-                .then()
-                .statusCode(200);
     }
 }

@@ -55,10 +55,15 @@
           </select>
           <button class="button" (click)="transfer(player.id, selectedTeamId)">Transfer</button>
         </div>
-        <div class="notification" *ngIf="notificationMessage">
-          {{ notificationMessage }}
+        <div class="notification" *ngIf="showNotification">
+          <div *ngIf="!errorNotificationShown">
+            {{ notificationMessage }}
+          </div>
+          <div *ngIf="errorNotificationShown" class="error-notification">
+            {{ notificationMessage }}
+          </div>
         </div>
-      </div>
   </div>
+</div>
 </div>
 </div>

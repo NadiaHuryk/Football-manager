@@ -1,6 +1,6 @@
 package com.example.footballmanager.service.impl;
 
-import com.example.footballmanager.exeption.TeamException;
+import com.example.footballmanager.exeption.FootballException;
 import com.example.footballmanager.model.Player;
 import com.example.footballmanager.model.Team;
 import com.example.footballmanager.repository.PlayerRepository;
@@ -24,20 +24,20 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team get(Long id) {
         return teamRepository.findById(id).orElseThrow(() ->
-                new TeamException("Can't find team by id: " + id));
+                new FootballException("Can't find team by id: " + id));
     }
 
     @Override
     public Team update(Team team) {
         return teamRepository.findById(team.getId())
                 .map(existingTeam -> teamRepository.save(team))
-                .orElseThrow(() -> new TeamException("Can't find team by id: " + team.getId()));
+                .orElseThrow(() -> new FootballException("Can't find team by id: " + team.getId()));
     }
 
     @Override
     public void delete(Long id) {
         Team team = teamRepository.findById(id)
-                .orElseThrow(() -> new TeamException("Can't find team by id : " + id));
+                .orElseThrow(() -> new FootballException("Can't find team by id : " + id));
 
         List<Player> players = playerRepository.findAllByTeamId(id);
         players.forEach(player -> player.setTeam(null));

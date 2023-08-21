@@ -18,10 +18,12 @@ export class PlayersDetailComponent implements OnInit {
   notificationMessage = '';
   showNotification = false;
   notificationShown = false;
+  errorNotificationShown = false;
   constructor(
     private route: ActivatedRoute,
     private playerService: PlayersService,
     private teamsService: TeamsService,
+
   ) {}
 
   ngOnInit(): void {
@@ -54,19 +56,35 @@ export class PlayersDetailComponent implements OnInit {
         transferredPlayer => {
           this.player = transferredPlayer;
           this.notificationMessage = 'Player transferred successfully.';
+
           this.showNotification = true;
           this.notificationShown = true;
+          this.errorNotificationShown = false;
+
           this.getPlayerById(playerId);
+
           setTimeout(() => {
             this.showNotification = false;
-          }, 1000); // 3000 мілісекунд = 3 секунди
+            this.notificationShown = false;
+          }, 3000);
         },
         error => {
           this.notificationMessage = 'Insufficient funds for transfer.';
+
+          this.showNotification = true;
+          this.notificationShown = true;
+          this.errorNotificationShown = true;
+
+          setTimeout(() => {
+            this.showNotification = false;
+            this.notificationShown = false;
+            this.errorNotificationShown = false;
+          }, 3000);
         }
       );
     }
   }
+
   save(): void {
     if (this.player) {
       this.playerService.updatePlayer(this.player).subscribe(updatedPlayer => {
