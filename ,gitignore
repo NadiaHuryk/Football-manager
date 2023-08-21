@@ -3,9 +3,6 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-frontend/.angular/cache
-frontend/node_modules/
-Footballmanager/data
 
 ### STS ###
 .apt_generated
@@ -21,7 +18,6 @@ Footballmanager/data
 *.iws
 *.iml
 *.ipr
-*.env
 
 ### NetBeans ###
 /nbproject/private/
@@ -35,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Local Configuration ###
+.env
