@@ -5,7 +5,6 @@ import com.example.footballmanager.dto.request.TeamRequestDto;
 import com.example.footballmanager.dto.response.TeamResponseDto;
 import com.example.footballmanager.model.Team;
 import com.example.footballmanager.service.TeamService;
-import com.example.footballmanager.service.TransferService;
 import com.example.footballmanager.util.UtilModelObjects;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -13,7 +12,6 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -49,9 +47,9 @@ class TeamControllerTest extends UtilModelObjects {
 
     @Test
     void createTeam_Ok() {
-        when(teamService.save(Mockito.any(Team.class))).thenReturn(team);
-        when(mapper.mapToModel(Mockito.any(TeamRequestDto.class))).thenReturn(team);
-        when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(getTeamResponseDto());
+        Mockito.when(teamService.save(Mockito.any(Team.class))).thenReturn(team);
+        Mockito.when(mapper.mapToModel(Mockito.any(TeamRequestDto.class))).thenReturn(team);
+        Mockito.when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(getTeamResponseDto());
         RestAssuredMockMvc
                 .given()
                 .contentType(ContentType.JSON)
@@ -70,8 +68,8 @@ class TeamControllerTest extends UtilModelObjects {
 
     @Test
     void getTeam_Ok() {
-        when(teamService.get(team.getId())).thenReturn(team);
-        when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(teamResponseDto);
+        Mockito.when(teamService.get(team.getId())).thenReturn(team);
+        Mockito.when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(teamResponseDto);
         RestAssuredMockMvc
                 .when()
                 .get("/teams/{id}", team.getId().intValue())
@@ -87,8 +85,8 @@ class TeamControllerTest extends UtilModelObjects {
 
     @Test
     void updateTeam_Ok() {
-        when(teamService.update(team)).thenReturn(team);
-        when(mapper.mapToModel(getTeamRequestDto())).thenReturn(team);
+        Mockito.when(teamService.update(team)).thenReturn(team);
+        Mockito.when(mapper.mapToModel(getTeamRequestDto())).thenReturn(team);
         when(mapper.mapToDto(team)).thenReturn(getTeamResponseDto());
         RestAssuredMockMvc
                 .given()
@@ -140,8 +138,8 @@ class TeamControllerTest extends UtilModelObjects {
         teamResponseDtos.add(createdTeamResponseDto1);
         teamResponseDtos.add(createdTeamResponseDto2);
 
-        when(teamService.findAll()).thenReturn(teams);
-        when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(createdTeamResponseDto1,
+        Mockito.when(teamService.findAll()).thenReturn(teams);
+        Mockito.when(mapper.mapToDto(Mockito.any(Team.class))).thenReturn(createdTeamResponseDto1,
                 createdTeamResponseDto2);
         RestAssuredMockMvc
                 .when()
