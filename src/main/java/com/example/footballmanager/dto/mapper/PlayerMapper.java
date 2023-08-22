@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(config = MapperConfig.class)
 public interface PlayerMapper {
     @Mapping(target = "team.id", source = "teamId")
+    @Mapping(target = "id", ignore = true)
     Player mapToModel(PlayerRequestDto dto);
 
     @Mapping(target = "teamId", source = "team.id")
