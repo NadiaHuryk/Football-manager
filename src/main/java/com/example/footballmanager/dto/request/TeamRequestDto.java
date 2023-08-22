@@ -1,5 +1,7 @@
 package com.example.footballmanager.dto.request;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
@@ -13,7 +15,8 @@ public class TeamRequestDto {
     private String country;
     @NotBlank(message = "City is required")
     private String city;
-    @PositiveOrZero(message = "Commission must be 0 or greater")
+    @Min(value = 0, message = "Commission must be 0 or greater")
+    @Max(value = 10, message = "Commission must be less than or equal to 10")
     private Integer commission;
     @PositiveOrZero(message = "Balance must be 0 or greater")
     private BigDecimal balance;

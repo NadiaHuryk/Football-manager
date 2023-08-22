@@ -117,7 +117,7 @@ class PlayerControllerTest extends UtilModelObjects {
                 .when()
                 .delete("/players/{id}", player.getId().intValue())
                 .then()
-                .statusCode(200);
+                .statusCode(204);
     }
 
     @Test

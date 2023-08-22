@@ -17,8 +17,8 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class TransferServiceImpl implements TransferService {
-    private static final long TRANSFER_BASE_RATE = 100000L;
-    private static final int TRANSFER_COMMISSION_RATE = 100;
+    private static final BigDecimal TRANSFER_BASE_RATE = BigDecimal.valueOf(100000);
+    private static final BigDecimal TRANSFER_COMMISSION_RATE = BigDecimal.valueOf(100);
     private final PlayerService playerService;
     private final TeamService teamService;
 
@@ -40,17 +40,12 @@ public class TransferServiceImpl implements TransferService {
 
     private BigDecimal calculateCost(Player player, Team teamFrom) {
         long monthsExperience = ChronoUnit.MONTHS.between(player.getCareerStartDate(), LocalDate.now());
-        BigDecimal transferBaseRate = BigDecimal.valueOf(TRANSFER_BASE_RATE);
         int yearsDifference = LocalDate.now().getYear() - player.getBirthDate().getYear();
         BigDecimal yearsBigDecimal = BigDecimal.valueOf(yearsDifference);
-
-        BigDecimal priceTransfer = transferBaseRate.multiply(BigDecimal.valueOf(monthsExperience))
+        BigDecimal priceTransfer = TRANSFER_BASE_RATE.multiply(BigDecimal.valueOf(monthsExperience))
                 .divide(yearsBigDecimal, RoundingMode.HALF_UP);
-
-        BigDecimal transferCommissionRate = BigDecimal.valueOf(TRANSFER_COMMISSION_RATE);
         BigDecimal teamCommission = BigDecimal.valueOf(teamFrom.getCommission());
-        BigDecimal commissionMultiplier = teamCommission.divide(transferCommissionRate, RoundingMode.HALF_UP);
-
+        BigDecimal commissionMultiplier = teamCommission.divide(TRANSFER_COMMISSION_RATE, RoundingMode.HALF_UP);
         BigDecimal multiply = priceTransfer.multiply(commissionMultiplier);
         return priceTransfer.add(multiply);
     }
