@@ -75,9 +75,10 @@ public class PlayerController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete player by id", description = "Delete player by id")
-    public void delete(@Parameter(description = "Player id", example = "1")
+    public ResponseEntity<Void> delete(@Parameter(description = "Player id", example = "1")
                            @PathVariable Long id) {
         playerService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

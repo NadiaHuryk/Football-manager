@@ -82,9 +82,10 @@ public class TeamController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete team by id", description = "Delete team by id")
-    public void delete(@Parameter(description = "Team id", example = "1")
+    public ResponseEntity<Void> delete(@Parameter(description = "Team id", example = "1")
                            @PathVariable Long id) {
         teamService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

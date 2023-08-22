@@ -111,7 +111,7 @@ class TeamControllerTest extends UtilModelObjects {
                 .when()
                 .delete("/teams/{id}", team.getId().intValue())
                 .then()
-                .statusCode(200);
+                .statusCode(204);
     }
 
     @Test
