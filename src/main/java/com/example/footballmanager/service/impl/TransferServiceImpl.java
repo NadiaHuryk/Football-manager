@@ -39,13 +39,15 @@ public class TransferServiceImpl implements TransferService {
     }
 
     private BigDecimal calculateCost(Player player, Team teamFrom) {
-        long monthsExperience = ChronoUnit.MONTHS.between(player.getCareerStartDate(), LocalDate.now());
+        long monthsExperience = ChronoUnit.MONTHS.between(player.getCareerStartDate(),
+                LocalDate.now());
         int yearsDifference = LocalDate.now().getYear() - player.getBirthDate().getYear();
         BigDecimal yearsBigDecimal = BigDecimal.valueOf(yearsDifference);
         BigDecimal priceTransfer = TRANSFER_BASE_RATE.multiply(BigDecimal.valueOf(monthsExperience))
                 .divide(yearsBigDecimal, RoundingMode.HALF_UP);
         BigDecimal teamCommission = BigDecimal.valueOf(teamFrom.getCommission());
-        BigDecimal commissionMultiplier = teamCommission.divide(TRANSFER_COMMISSION_RATE, RoundingMode.HALF_UP);
+        BigDecimal commissionMultiplier = teamCommission.divide(TRANSFER_COMMISSION_RATE,
+                RoundingMode.HALF_UP);
         BigDecimal multiply = priceTransfer.multiply(commissionMultiplier);
         return priceTransfer.add(multiply);
     }

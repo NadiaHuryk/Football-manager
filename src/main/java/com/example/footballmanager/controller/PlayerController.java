@@ -46,8 +46,8 @@ public class PlayerController {
     @GetMapping("/{id}")
     @Operation(summary = "Get player by id",
             description = "Retrieve the player information by its id")
-    public ResponseEntity<PlayerResponseDto> get(@Parameter(description = "Player id", example = "1")
-                                                     @PathVariable Long id) {
+    public ResponseEntity<PlayerResponseDto> get(@Parameter(description = "Player id",
+            example = "1") @PathVariable Long id) {
         PlayerResponseDto playerResponseDto = mapper.mapToDto(playerService.get(id));
         return ResponseEntity.ok(playerResponseDto);
     }
